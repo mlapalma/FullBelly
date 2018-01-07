@@ -169,7 +169,8 @@ No posee implementación de vistas ni cliente REST.
        	"scoreEnvironment":29
     }
 ```
-> DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).
+> DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).--
+
 > GET AllByCustomerId: [http://localhost:8080/reviews/customer?id={id}](http://localhost:8080/reviews/owner?id=1).
 > GET AllByRestaurantId: [http://localhost:8080/reviews/restaurant?id={id}](http://localhost:8080/reviews/restaurant?id=1).
 > GET TotalAvgByRestaurantId: [http://localhost:8080/reviews/totalavg?restaurantId={id}](http://localhost:8080/reviews/totalavg?restaurantId=1).
