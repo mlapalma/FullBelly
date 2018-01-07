@@ -4,7 +4,7 @@ import com.aieme.pleasedheart.models.Customer;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.aieme.pleasedheart.repositories.CustomerRepository;
+import com.aieme.pleasedheart.models.repositories.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

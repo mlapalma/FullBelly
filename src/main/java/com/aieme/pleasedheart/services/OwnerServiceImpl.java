@@ -4,7 +4,7 @@ import com.aieme.pleasedheart.models.Owner;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.aieme.pleasedheart.repositories.OwnerRepository;
+import com.aieme.pleasedheart.models.repositories.OwnerRepository;
 
 @Service
 public class OwnerServiceImpl implements OwnerService {

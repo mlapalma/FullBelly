@@ -1,6 +1,6 @@
-package com.aieme.pleasedheart.repositories;
+package com.aieme.pleasedheart.models.repositories;
 
-import com.aieme.pleasedheart.models.Owner;
+import com.aieme.pleasedheart.models.Customer;
 import com.aieme.pleasedheart.models.datasources.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,23 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OwnerDaoImpl implements OwnerRepository{
+public class CustomerRepositoryImpl implements CustomerRepository{
 
     @Autowired
     DataSource dataSource;
 
     @Override
-    public int insert(Owner record) {
+    public int insert(Customer record) {
         Connection conn = dataSource.getConnection();
-        String sqlMaxId = "SELECT max(id) from owners";
-        String sql = "INSERT INTO owners (id,name,email,phone) Values (?,?,?,?)";
-        int ownerId=0;
+        String sqlMaxId = "SELECT max(id) from customers";
+        String sql = "INSERT INTO customers (id,name,email,phone) Values (?,?,?,?)";
+        int customerId=0;
 
         try {
             PreparedStatement statement = conn.prepareStatement(sqlMaxId);
             ResultSet rs=statement.executeQuery();
             if (rs.next()) {
-               ownerId=rs.getInt(1)+1;
+               customerId=rs.getInt(1)+1;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -36,25 +36,25 @@ public class OwnerDaoImpl implements OwnerRepository{
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, ownerId);
+            statement.setInt(1, customerId);
             statement.setString(2, record.getName());
             statement.setString(3, record.getEmail());
             statement.setString(4, record.getPhone());
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-               System.out.println("New owner inserted successfully");
+               System.out.println("New customer inserted successfully");
             }
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return ownerId;
+        return customerId;
     }
 
     @Override
-    public void update(Owner record) {
+    public void update(Customer record) {
         Connection conn = dataSource.getConnection();
-        String sql = "UPDATE owners SET name=?, email=?, phone=? WHERE"
+        String sql = "UPDATE customers SET name=?, email=?, phone=? WHERE"
                 + " id=?";
 
         try {
@@ -65,7 +65,7 @@ public class OwnerDaoImpl implements OwnerRepository{
             statement.setInt(4, record.getId());
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-               System.out.println("Owner updated");
+               System.out.println("Customer updated");
             }
             conn.close();
         } catch (SQLException ex) {
@@ -74,57 +74,57 @@ public class OwnerDaoImpl implements OwnerRepository{
     }
 
     @Override
-    public List<Owner> findAll() {
+    public List<Customer> findAll() {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, email, phone FROM owners";
+        String sql = "SELECT id, name, email, phone FROM customers";
 
-        List<Owner> owners = new ArrayList<Owner>();
+        List<Customer> customers = new ArrayList<Customer>();
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
-                Owner owner = new Owner();
-                owner.setId(rs.getInt(1));
-                owner.setName(rs.getString(2));
-                owner.setEmail(rs.getString(3));
-                owner.setPhone(rs.getString(4));
-                owners.add(owner);
+                Customer customer = new Customer();
+                customer.setId(rs.getInt(1));
+                customer.setName(rs.getString(2));
+                customer.setEmail(rs.getString(3));
+                customer.setPhone(rs.getString(4));
+                customers.add(customer);
             }
             System.out.println("All rows retrieved");
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return owners;
+        return customers;
     }
 
     @Override
-    public Owner findById(int id) {
+    public Customer findById(int id) {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, email, phone FROM owners WHERE id=?";
-        Owner owner = null;
+        String sql = "SELECT id, name, email, phone FROM customers WHERE id=?";
+        Customer customer = null;
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
-                owner = new Owner();
-                owner.setId(rs.getInt(1));
-                owner.setName(rs.getString(2));
-                owner.setEmail(rs.getString(3));
-                owner.setPhone(rs.getString(4));
+                customer = new Customer();
+                customer.setId(rs.getInt(1));
+                customer.setName(rs.getString(2));
+                customer.setEmail(rs.getString(3));
+                customer.setPhone(rs.getString(4));
             }
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return owner;
+        return customer;
     }
 
     @Override
     public void deleteAll() {
         Connection conn = dataSource.getConnection();
-        String sql = "DELETE FROM owners WHERE id>=0";
+        String sql = "DELETE FROM customers WHERE id>=0";
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -140,7 +140,7 @@ public class OwnerDaoImpl implements OwnerRepository{
     @Override
     public void deleteById(int id) {
         Connection conn = dataSource.getConnection();
-        String sql = "DELETE FROM owners WHERE id=?";
+        String sql = "DELETE FROM customers WHERE id=?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
@@ -155,9 +155,9 @@ public class OwnerDaoImpl implements OwnerRepository{
     }
 
     @Override
-    public boolean exist(Owner record) {
+    public boolean exist(Customer record) {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, email, phone FROM owners WHERE name=?";
+        String sql = "SELECT id, name, email, phone FROM customers WHERE name=?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, record.getName());

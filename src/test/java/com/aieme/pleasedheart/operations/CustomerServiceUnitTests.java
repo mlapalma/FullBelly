@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import com.aieme.pleasedheart.repositories.CustomerRepository;
+import com.aieme.pleasedheart.models.repositories.CustomerRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest

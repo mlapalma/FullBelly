@@ -11,8 +11,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.DurationFieldType;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.aieme.pleasedheart.repositories.RestaurantRepository;
-import com.aieme.pleasedheart.repositories.ReviewRepository;
+import com.aieme.pleasedheart.models.repositories.RestaurantRepository;
+import com.aieme.pleasedheart.models.repositories.ReviewRepository;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {

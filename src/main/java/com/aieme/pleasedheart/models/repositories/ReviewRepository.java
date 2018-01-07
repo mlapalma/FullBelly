@@ -1,4 +1,4 @@
-package com.aieme.pleasedheart.repositories;
+package com.aieme.pleasedheart.models.repositories;
 
 import com.aieme.pleasedheart.models.Review;
 import java.sql.Date;
