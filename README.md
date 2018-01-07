@@ -201,4 +201,10 @@ No posee implementación de vistas ni cliente REST.
 `Retorna el promedio de reviews por cada uno de los días que se encuentran cargados en la base de datos para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews/alldaysavg?restaurantId=1`
 
+#TODO
+
+Para mejorar: Restaron hacer algunas validaciones.
+
+En el proyecto se incluye un mínimo de prueba unitaria y de integración con el objetivo de que quede registrada a forma en la que se podrían trabajar el adicional de pruebas.
+
 
