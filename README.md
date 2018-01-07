@@ -38,7 +38,9 @@ No posee implementación de vistas ni cliente REST.
 ### Operaciones customers
 ---
 > GET List: [http://localhost:8080/customers/](http://localhost:8080/customers/).
+
 > GET One: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/1).
+
 > POST Create: [http://localhost:8080/customers/](http://localhost:8080/customers/).
 
 `Header: Content-Type: application/json`
@@ -67,7 +69,9 @@ No posee implementación de vistas ni cliente REST.
 ### Operaciones owners
 ---
 > GET List: [http://localhost:8080/owners/](http://localhost:8080/owners/).
+
 > GET One: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/1).
+
 > POST Create: [http://localhost:8080/owners/](http://localhost:8080/owners/).
 
 `Header: Content-Type: application/json`
@@ -96,7 +100,9 @@ No posee implementación de vistas ni cliente REST.
 ### Operaciones restaurants
 ---
 > GET List: [http://localhost:8080/restaurants/](http://localhost:8080/restaurants/).
+
 > GET One: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/1).
+
 > POST Create: [http://localhost:8080/restaurants/](http://localhost:8080/restaurants/).
 
 `Header: Content-Type: application/json`
@@ -126,13 +132,16 @@ No posee implementación de vistas ni cliente REST.
     }
 ```
 > DELETE delete: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/51).
+
 > GET ByOwnerId: [http://localhost:8080/restaurants/owner?id={id}](http://localhost:8080/restaurants/owner?id=1).
 
 ---
 ### Operaciones reviews
 ---
 > GET List: [http://localhost:8080/reviews/](http://localhost:8080/reviews/).
+
 > GET One: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1).
+
 > POST Create: [http://localhost:8080/reviews/](http://localhost:8080/restaurants/).
 
 `Header: Content-Type: application/json`
@@ -169,18 +178,26 @@ No posee implementación de vistas ni cliente REST.
        	"scoreEnvironment":29
     }
 ```
-> DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).--
+> DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).
 
 > GET AllByCustomerId: [http://localhost:8080/reviews/customer?id={id}](http://localhost:8080/reviews/owner?id=1).
+
 > GET AllByRestaurantId: [http://localhost:8080/reviews/restaurant?id={id}](http://localhost:8080/reviews/restaurant?id=1).
+
 > GET TotalAvgByRestaurantId: [http://localhost:8080/reviews/totalavg?restaurantId={id}](http://localhost:8080/reviews/totalavg?restaurantId=1).
+
 > GET TotalAvgByRestaurantIdBetweenDates: [http://localhost:8080/reviews/avg?restaurantId={id}&startDate={yyyy-MM-dd}&endDate={yyyy-MM-dd}](http://localhost:8080/reviews/avg?restaurantId=1&startDate=2018-01-06&endDate=2018-01-07)
+
 `Retorna el promedio de reviews total entre las fechas especificadas para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews/avg?restaurantId=1&startDate=2018-01-06&endDate=2018-01-07`
+
 > GET EachDayAvgReviewsByRestaurantId: [http://localhost:8080/reviews/daybydayavg?restaurantId={id}&startDate={yyyy-MM-dd}&endDate={yyyy-MM-dd}](http://localhost:8080/reviews/daybydayavg?restaurantId=1&startDate=2017-12-08&endDate=2018-01-07).
+
 `Retorna el promedio de reviews por cada uno de los días entre las fechas especificadas para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews//daybydayavg?restaurantId=1&startDate=2017-12-08&endDate=2018-01-07`
+
 > Get AllDaysAvgReviewsByRestaurantId: [http://localhost:8080/reviews/alldaysavg?restaurantId={id}](http://localhost:8080/reviews/alldaysavg?restaurantId=1)
+
 `Retorna el promedio de reviews por cada uno de los días que se encuentran cargados en la base de datos para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews/alldaysavg?restaurantId=1`
 
