@@ -2,49 +2,49 @@ package com.aieme.pleasedheart.services;
 
 import com.aieme.pleasedheart.models.Owner;
 import org.springframework.stereotype.Service;
-import com.aieme.pleasedheart.models.dao.OwnerDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.aieme.pleasedheart.repositories.OwnerRepository;
 
 @Service
 public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
-    private OwnerDao ownerDao;
+    private OwnerRepository ownerRepository;
 
     @Override
     public int insert(Owner record) {
-        return ownerDao.insert(record);
+        return ownerRepository.insert(record);
     }
 
     @Override
     public void update(Owner record) {
-        ownerDao.update(record);
+        ownerRepository.update(record);
     }
 
     @Override
     public List<Owner> findAll() {
-        return ownerDao.findAll();
+        return ownerRepository.findAll();
     }
 
     @Override
     public Owner findById(int id) {
-        return ownerDao.findById(id);
+        return ownerRepository.findById(id);
     }
 
     @Override
     public void delete(int id) {
-        ownerDao.deleteById(id);
+        ownerRepository.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        ownerDao.deleteAll();
+        ownerRepository.deleteAll();
     }
 
     @Override
     public boolean exist(Owner record) {
-        return ownerDao.exist(record);
+        return ownerRepository.exist(record);
     }
 
 }

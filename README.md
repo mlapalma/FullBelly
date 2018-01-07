@@ -180,7 +180,7 @@ No posee implementación de vistas ni cliente REST.
 ```
 > DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).
 
-> GET AllByCustomerId: [http://localhost:8080/reviews/customer?id={id}](http://localhost:8080/reviews/owner?id=1).
+> GET AllByCustomerId: [http://localhost:8080/reviews/customer?id={id}](http://localhost:8080/reviews/customer?id=1).
 
 > GET AllByRestaurantId: [http://localhost:8080/reviews/restaurant?id={id}](http://localhost:8080/reviews/restaurant?id=1).
 

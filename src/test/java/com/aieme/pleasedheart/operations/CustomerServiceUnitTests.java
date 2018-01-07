@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import com.aieme.pleasedheart.models.dao.CustomerDao;
+import com.aieme.pleasedheart.repositories.CustomerRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -20,7 +20,7 @@ import com.aieme.pleasedheart.models.dao.CustomerDao;
 public class CustomerServiceUnitTests {
 
     @Mock
-    CustomerDao customerDao;
+    CustomerRepository customerRepository;
 
     @InjectMocks
     CustomerServiceImpl customerService;
@@ -40,10 +40,10 @@ public class CustomerServiceUnitTests {
     customer.setPhone("1111111111");
 
     //Mock Service Operation
-    when(customerDao.findById(1)).thenReturn(customer);
+    when(customerRepository.findById(1)).thenReturn(customer);
 
     //Assert
-    assertEquals("John Doe", customerDao.findById(1).getName());
+    assertEquals("John Doe", customerRepository.findById(1).getName());
 
     }
 

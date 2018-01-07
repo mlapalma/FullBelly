@@ -4,8 +4,6 @@ import com.aieme.pleasedheart.models.Restaurant;
 import com.aieme.pleasedheart.models.Review;
 import org.springframework.stereotype.Service;
 import com.aieme.pleasedheart.models.ReviewAverage;
-import com.aieme.pleasedheart.models.dao.RestaurantDao;
-import com.aieme.pleasedheart.models.dao.ReviewDao;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,65 +11,67 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.DurationFieldType;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.aieme.pleasedheart.repositories.RestaurantRepository;
+import com.aieme.pleasedheart.repositories.ReviewRepository;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
-    private ReviewDao reviewDao;
+    private ReviewRepository reviewRepository;
 
     @Autowired
-    private RestaurantDao restaurantDao;
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public int insert(Review record) {
-        return reviewDao.insert(record);
+        return reviewRepository.insert(record);
     }
 
     @Override
     public void update(Review record) {
-        reviewDao.update(record);
+        reviewRepository.update(record);
     }
 
     @Override
     public List<Review> findAll() {
-        return reviewDao.findAll();
+        return reviewRepository.findAll();
     }
 
     @Override
     public Review findById(int id) {
-        return reviewDao.findById(id);
+        return reviewRepository.findById(id);
     }
 
     @Override
     public void delete(int id) {
-        reviewDao.deleteById(id);
+        reviewRepository.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        reviewDao.deleteAll();
+        reviewRepository.deleteAll();
     }
 
     @Override
     public List<Review> findByRestaurantId(int restaurantId) {
-        return reviewDao.findByRestaurantId(restaurantId);
+        return reviewRepository.findByRestaurantId(restaurantId);
     }
 
     @Override
     public List<Review> findByCustomerId(int customerId) {
-        return reviewDao.findByCustomerId(customerId);
+        return reviewRepository.findByCustomerId(customerId);
     }
 
     @Override
     public List<Review> findByRestaurantIdBetweenDates(int restaurantId, Date starDate, Date endDate) {
-        return reviewDao.findByRestaurantIdBetweenDates(restaurantId, starDate, endDate);
+        return reviewRepository.findByRestaurantIdBetweenDates(restaurantId, starDate, endDate);
     }
 
     @Override
     public ReviewAverage calculateTotalReviewAverageByRestaurantId(int restaurantId) {
         ReviewAverage reviewAverage = new ReviewAverage();
-        List<Review> reviews = reviewDao.findByRestaurantId(restaurantId);
+        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
         int scoreServiceSum=0;
         int scoreFoodSum=0;
         int scoreEnvironmentSum=0;
@@ -96,7 +96,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
         reviewAverage.setStartDate(minimumDate);
         reviewAverage.setEndDate(maximumDate);
-        reviewAverage.setRestaurant(restaurantDao.findById(restaurantId));
+        reviewAverage.setRestaurant(restaurantRepository.findById(restaurantId));
         reviewAverage.setAvgScoreService(scoreServiceAvg);
         reviewAverage.setAvgScoreFood(scoreFoodAvg);
         reviewAverage.setAvgScoreEnvironment(scoreEnvironmentAvg);
@@ -107,7 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewAverage> calculateRestaurantsTotalReviewAverageByOwnerId(int ownerId) {
         List<ReviewAverage> reviewAvgs = new ArrayList<ReviewAverage>();
-        for(Restaurant restaurant:restaurantDao.findByOwnerId(ownerId)){
+        for(Restaurant restaurant:restaurantRepository.findByOwnerId(ownerId)){
             reviewAvgs.add(calculateTotalReviewAverageByRestaurantId(restaurant.getId()));
         }
         return reviewAvgs;
@@ -116,7 +116,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewAverage calculateReviewAverageByRestaurantIdBetweenDates(int restaurantId, Date startDate, Date endDate) {
         ReviewAverage reviewAverage = new ReviewAverage();
-        List<Review> reviews = reviewDao.findByRestaurantIdBetweenDates(restaurantId,startDate,endDate);
+        List<Review> reviews = reviewRepository.findByRestaurantIdBetweenDates(restaurantId,startDate,endDate);
         int scoreServiceSum=0;
         int scoreFoodSum=0;
         int scoreEnvironmentSum=0;
@@ -135,7 +135,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
         reviewAverage.setStartDate(startDate);
         reviewAverage.setEndDate(endDate);
-        reviewAverage.setRestaurant(restaurantDao.findById(restaurantId));
+        reviewAverage.setRestaurant(restaurantRepository.findById(restaurantId));
         reviewAverage.setAvgScoreService(scoreServiceAvg);
         reviewAverage.setAvgScoreFood(scoreFoodAvg);
         reviewAverage.setAvgScoreEnvironment(scoreEnvironmentAvg);
@@ -163,7 +163,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewAverage> calculateAllDaysReviewAverageByRestaurantId(int restaurantId) {
         List<ReviewAverage> reviewAvgs = new ArrayList<ReviewAverage>();
-        List<Review> reviews = reviewDao.findByRestaurantId(restaurantId);
+        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
         Date minimumDate = new Date(Long.MAX_VALUE);
         Date maximumDate = new Date(Long.MIN_VALUE);
         for(Review review:reviews){

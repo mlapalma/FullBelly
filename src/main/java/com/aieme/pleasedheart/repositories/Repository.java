@@ -1,8 +1,8 @@
-package com.aieme.pleasedheart.models.dao;
+package com.aieme.pleasedheart.repositories;
 
 import java.util.List;
 
-public interface Dao<T> {
+public interface Repository<T> {
 
     public int insert(T record);
     public void update(T record);

@@ -10,21 +10,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.aieme.pleasedheart.models.dao.CustomerDao;
+import com.aieme.pleasedheart.repositories.CustomerRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Import(BaseConfiguration.class)
-public class CustomerDaoIntegrationTests {
+public class CustomerRepositoryIntegrationTests {
 
     @Autowired
     ApplicationContext appContext;
     @Autowired
-    CustomerDao customerDao;
+    CustomerRepository customerRepository;
 
     @Test
     public void checkDependencyBeans(){
-        CustomerDao customerDaoBean = (CustomerDao)appContext.getBean("customerDaoImpl");
+        CustomerRepository customerDaoBean = (CustomerRepository)appContext.getBean("customerRepositoryImpl");
         assertNotNull(customerDaoBean);
     }
 
@@ -37,12 +37,12 @@ public class CustomerDaoIntegrationTests {
         demoCustomer.setPhone("1111111111");
 
         //Act
-        customerDao.insert(demoCustomer);
+        customerRepository.insert(demoCustomer);
 
         //Assert
-        assertTrue(customerDao.exist(demoCustomer));
+        assertTrue(customerRepository.exist(demoCustomer));
 
         //Clean
-        customerDao.deleteById(demoCustomer.getId());
+        customerRepository.deleteById(demoCustomer.getId());
     }
 }

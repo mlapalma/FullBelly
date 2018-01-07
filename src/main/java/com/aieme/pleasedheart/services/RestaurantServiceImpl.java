@@ -2,54 +2,54 @@ package com.aieme.pleasedheart.services;
 
 import com.aieme.pleasedheart.models.Restaurant;
 import org.springframework.stereotype.Service;
-import com.aieme.pleasedheart.models.dao.RestaurantDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.aieme.pleasedheart.repositories.RestaurantRepository;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
-    private RestaurantDao restaurantDao;
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public int insert(Restaurant record) {
-        return restaurantDao.insert(record);
+        return restaurantRepository.insert(record);
     }
 
     @Override
     public void update(Restaurant record) {
-        restaurantDao.update(record);
+        restaurantRepository.update(record);
     }
 
     @Override
     public List<Restaurant> findAll() {
-        return restaurantDao.findAll();
+        return restaurantRepository.findAll();
     }
 
     @Override
     public Restaurant findById(int id) {
-        return restaurantDao.findById(id);
+        return restaurantRepository.findById(id);
     }
 
     @Override
     public void delete(int id) {
-        restaurantDao.deleteById(id);
+        restaurantRepository.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        restaurantDao.deleteAll();
+        restaurantRepository.deleteAll();
     }
 
     @Override
     public boolean exist(Restaurant record) {
-        return restaurantDao.exist(record);
+        return restaurantRepository.exist(record);
     }
 
     @Override
     public List<Restaurant> findByOwnerId(int ownerId) {
-        return restaurantDao.findByOwnerId(ownerId);
+        return restaurantRepository.findByOwnerId(ownerId);
     }
 
 }

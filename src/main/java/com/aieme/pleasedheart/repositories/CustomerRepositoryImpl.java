@@ -1,4 +1,4 @@
-package com.aieme.pleasedheart.models.dao;
+package com.aieme.pleasedheart.repositories;
 
 import com.aieme.pleasedheart.models.Customer;
 import com.aieme.pleasedheart.models.datasources.DataSource;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CustomerDaoImpl implements CustomerDao{
+public class CustomerRepositoryImpl implements CustomerRepository{
 
     @Autowired
     DataSource dataSource;

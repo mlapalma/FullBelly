@@ -1,4 +1,4 @@
-package com.aieme.pleasedheart.models.dao;
+package com.aieme.pleasedheart.repositories;
 
 import com.aieme.pleasedheart.models.Review;
 import com.aieme.pleasedheart.models.datasources.DataSource;
@@ -13,16 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ReviewDaoImpl implements ReviewDao {
+public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Autowired
     DataSource dataSource;
 
     @Autowired
-    CustomerDao customerDao;
+    CustomerRepository customerDao;
 
     @Autowired
-    RestaurantDao restaurantDao;
+    RestaurantRepository restaurantDao;
 
     @Override
     public int insert(Review record) {

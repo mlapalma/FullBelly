@@ -1,10 +1,10 @@
-package com.aieme.pleasedheart.models.dao;
+package com.aieme.pleasedheart.repositories;
 
 import com.aieme.pleasedheart.models.Review;
 import java.sql.Date;
 import java.util.List;
 
-public interface ReviewDao extends Dao<Review>{
+public interface ReviewRepository extends Repository<Review>{
 
     public List<Review> findByRestaurantId(int restaurantId);
     public List<Review> findByCustomerId(int customerId);

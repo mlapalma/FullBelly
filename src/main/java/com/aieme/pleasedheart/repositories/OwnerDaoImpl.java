@@ -1,6 +1,6 @@
-package com.aieme.pleasedheart.models.dao;
+package com.aieme.pleasedheart.repositories;
 
-import com.aieme.pleasedheart.models.Restaurant;
+import com.aieme.pleasedheart.models.Owner;
 import com.aieme.pleasedheart.models.datasources.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,26 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RestaurantDaoImpl implements RestaurantDao {
+public class OwnerDaoImpl implements OwnerRepository{
 
     @Autowired
     DataSource dataSource;
 
-    @Autowired
-    OwnerDao ownerDao;
-
     @Override
-    public int insert(Restaurant record) {
+    public int insert(Owner record) {
         Connection conn = dataSource.getConnection();
-        String sqlMaxId = "SELECT max(id) from restaurants";
-        String sql = "INSERT INTO restaurants (id,name,address,id_owner) Values (?,?,?,?)";
-        int restaurantId=0;
+        String sqlMaxId = "SELECT max(id) from owners";
+        String sql = "INSERT INTO owners (id,name,email,phone) Values (?,?,?,?)";
+        int ownerId=0;
 
         try {
             PreparedStatement statement = conn.prepareStatement(sqlMaxId);
             ResultSet rs=statement.executeQuery();
             if (rs.next()) {
-               restaurantId=rs.getInt(1)+1;
+               ownerId=rs.getInt(1)+1;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -39,36 +36,36 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, restaurantId);
+            statement.setInt(1, ownerId);
             statement.setString(2, record.getName());
-            statement.setString(3, record.getAddress());
-            statement.setInt(4, record.getOwner().getId());
+            statement.setString(3, record.getEmail());
+            statement.setString(4, record.getPhone());
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-               System.out.println("New restaurant inserted successfully");
+               System.out.println("New owner inserted successfully");
             }
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return restaurantId;
+        return ownerId;
     }
 
     @Override
-    public void update(Restaurant record) {
+    public void update(Owner record) {
         Connection conn = dataSource.getConnection();
-        String sql = "UPDATE restaurants SET name=?, address=?, id_owner=? WHERE"
+        String sql = "UPDATE owners SET name=?, email=?, phone=? WHERE"
                 + " id=?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, record.getName());
-            statement.setString(2, record.getAddress());
-            statement.setInt(3, record.getOwner().getId());
+            statement.setString(2, record.getEmail());
+            statement.setString(3, record.getPhone());
             statement.setInt(4, record.getId());
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-               System.out.println("Restaurant updated");
+               System.out.println("Owner updated");
             }
             conn.close();
         } catch (SQLException ex) {
@@ -77,59 +74,57 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public List<Restaurant> findAll() {
+    public List<Owner> findAll() {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, address, id_owner FROM restaurants";
+        String sql = "SELECT id, name, email, phone FROM owners";
 
-        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        List<Owner> owners = new ArrayList<Owner>();
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
-
             while(rs.next()){
-                Restaurant restaurant = new Restaurant();
-                restaurant.setId(rs.getInt(1));
-                restaurant.setName(rs.getString(2));
-                restaurant.setAddress(rs.getString(3));
-                restaurant.setOwner(ownerDao.findById(rs.getInt(4)));
-                restaurants.add(restaurant);
+                Owner owner = new Owner();
+                owner.setId(rs.getInt(1));
+                owner.setName(rs.getString(2));
+                owner.setEmail(rs.getString(3));
+                owner.setPhone(rs.getString(4));
+                owners.add(owner);
             }
             System.out.println("All rows retrieved");
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return restaurants;
+        return owners;
     }
 
     @Override
-    public Restaurant findById(int id) {
+    public Owner findById(int id) {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, address, id_owner FROM restaurants WHERE id=?";
-        String sqlOwner = "SELECT id, name, email, phone FROM owners where id=?";
-        Restaurant restaurant = null;
+        String sql = "SELECT id, name, email, phone FROM owners WHERE id=?";
+        Owner owner = null;
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
-                restaurant = new Restaurant();
-                restaurant.setId(rs.getInt(1));
-                restaurant.setName(rs.getString(2));
-                restaurant.setAddress(rs.getString(3));
-                restaurant.setOwner(ownerDao.findById(rs.getInt(4)));
+                owner = new Owner();
+                owner.setId(rs.getInt(1));
+                owner.setName(rs.getString(2));
+                owner.setEmail(rs.getString(3));
+                owner.setPhone(rs.getString(4));
             }
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return restaurant;
+        return owner;
     }
 
     @Override
     public void deleteAll() {
         Connection conn = dataSource.getConnection();
-        String sql = "DELETE FROM restaurants WHERE id>=0";
+        String sql = "DELETE FROM owners WHERE id>=0";
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -145,7 +140,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
     @Override
     public void deleteById(int id) {
         Connection conn = dataSource.getConnection();
-        String sql = "DELETE FROM restaurants WHERE id=?";
+        String sql = "DELETE FROM owners WHERE id=?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
@@ -160,9 +155,9 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public boolean exist(Restaurant record) {
+    public boolean exist(Owner record) {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, address, id_owner FROM restaurants WHERE name=?";
+        String sql = "SELECT id, name, email, phone FROM owners WHERE name=?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, record.getName());
@@ -177,31 +172,4 @@ public class RestaurantDaoImpl implements RestaurantDao {
         return false;
     }
 
-    @Override
-    public List<Restaurant> findByOwnerId(int ownerId) {
-        Connection conn = dataSource.getConnection();
-        String sql = "SELECT id, name, address, id_owner FROM restaurants "
-                + "WHERE id_owner=?";
-
-        List<Restaurant> restaurants = new ArrayList<Restaurant>();
-        try {
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, ownerId);
-            ResultSet rs = statement.executeQuery();
-
-            while(rs.next()){
-                Restaurant restaurant = new Restaurant();
-                restaurant.setId(rs.getInt(1));
-                restaurant.setName(rs.getString(2));
-                restaurant.setAddress(rs.getString(3));
-                restaurant.setOwner(ownerDao.findById(rs.getInt(4)));
-                restaurants.add(restaurant);
-            }
-            System.out.println("All rows retrieved");
-            conn.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return restaurants;
-    }
 }

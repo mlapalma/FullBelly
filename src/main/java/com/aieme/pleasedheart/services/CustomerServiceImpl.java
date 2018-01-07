@@ -4,46 +4,46 @@ import com.aieme.pleasedheart.models.Customer;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.aieme.pleasedheart.models.dao.CustomerDao;
+import com.aieme.pleasedheart.repositories.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private CustomerDao customerDao;
+    private CustomerRepository customerRepository;
 
     @Override
     public int insert(Customer record) {
-        return customerDao.insert(record);
+        return customerRepository.insert(record);
     }
 
     @Override
     public void update(Customer record) {
-        customerDao.update(record);
+        customerRepository.update(record);
     }
 
     @Override
     public List<Customer> findAll() {
-        return customerDao.findAll();
+        return customerRepository.findAll();
     }
 
     @Override
     public Customer findById(int id) {
-        return customerDao.findById(id);
+        return customerRepository.findById(id);
     }
 
     @Override
     public void delete(int id) {
-        customerDao.deleteById(id);
+        customerRepository.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        customerDao.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Override
     public boolean exist(Customer customer) {
-        return customerDao.exist(customer);
+        return customerRepository.exist(customer);
     }
 }
