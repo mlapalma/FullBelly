@@ -201,7 +201,10 @@ No posee implementación de vistas ni cliente REST.
 `Retorna el promedio de reviews por cada uno de los días que se encuentran cargados en la base de datos para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews/alldaysavg?restaurantId=1`
 
-#TODO
+---
+---
+# TODO
+---
 
 Para mejorar: Restaron hacer algunas validaciones.
 
