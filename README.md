@@ -5,7 +5,7 @@ La aplicación expone una API REST en donde se encuentran controladores con oper
 1. Clientes Finales (customers).
 2. Dueños de Restaurantes (owners) (NOTA: Un dueño puede tener más de un restaurante).
 3. Restaurantes (restaurants).
-4. Valoraciones (reviews) (Las valoraciones de servicio, comida y ambiente son representadas por un rango de valores de 1 a 30, donde 30 es la mejor valoración).
+4. Valoraciones (reviews) (Las valoraciones de servicio, comida y ambiente son representadas por un rango de valores de 1 a 30, donde 30 es la mejor valoración, la valoración 0 debe ser interpretada como "No Data").
 
 ## Puesta en funcionamiento:
 Para hacer funcionar la aplicación se requiere una base de datos MySQL de pruebas.
@@ -37,9 +37,9 @@ No posee implementación de vistas ni cliente REST.
 ---
 ### Operaciones customers
 ---
-GET List: [http://localhost:8080/customers/](http://localhost:8080/customers/).
-GET One: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/1).
-POST Create: [http://localhost:8080/customers/](http://localhost:8080/customers/).
+> GET List: [http://localhost:8080/customers/](http://localhost:8080/customers/).
+> GET One: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/1).
+> POST Create: [http://localhost:8080/customers/](http://localhost:8080/customers/).
 
 `Header: Content-Type: application/json`
 
@@ -50,7 +50,7 @@ POST Create: [http://localhost:8080/customers/](http://localhost:8080/customers/
 	    "phone": "22222222"
     }
 ```
-PUT Update: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/502).
+> PUT Update: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/502).
 
 `Header: Content-Type: application/json`
 
@@ -61,14 +61,14 @@ PUT Update: [http://localhost:8080/customers/{id}](http://localhost:8080/custome
 	    "phone": "123123123"
     }
 ```
-DELETE delete: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/502).
+> DELETE delete: [http://localhost:8080/customers/{id}](http://localhost:8080/customers/502).
 
 ---
 ### Operaciones owners
 ---
-GET List: [http://localhost:8080/owners/](http://localhost:8080/owners/).
-GET One: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/1).
-POST Create: [http://localhost:8080/owners/](http://localhost:8080/owners/).
+> GET List: [http://localhost:8080/owners/](http://localhost:8080/owners/).
+> GET One: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/1).
+> POST Create: [http://localhost:8080/owners/](http://localhost:8080/owners/).
 
 `Header: Content-Type: application/json`
 
@@ -79,7 +79,7 @@ POST Create: [http://localhost:8080/owners/](http://localhost:8080/owners/).
 	    "phone": "22222222"
     }
 ```
-PUT Update: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/21).
+> PUT Update: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/21).
 
 `Header: Content-Type: application/json`
 
@@ -90,14 +90,14 @@ PUT Update: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/21)
 	    "phone": "1231231231"
     }
 ```
-DELETE delete: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/21).
+> DELETE delete: [http://localhost:8080/owners/{id}](http://localhost:8080/owners/21).
 
 ---
 ### Operaciones restaurants
 ---
-GET List: [http://localhost:8080/restaurants/](http://localhost:8080/restaurants/).
-GET One: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/1).
-POST Create: [http://localhost:8080/restaurants/](http://localhost:8080/restaurants/).
+> GET List: [http://localhost:8080/restaurants/](http://localhost:8080/restaurants/).
+> GET One: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/1).
+> POST Create: [http://localhost:8080/restaurants/](http://localhost:8080/restaurants/).
 
 `Header: Content-Type: application/json`
 
@@ -111,7 +111,7 @@ POST Create: [http://localhost:8080/restaurants/](http://localhost:8080/restaura
 	        }
     }
 ```
-PUT Update: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/51).
+> PUT Update: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/51).
 
 `Header: Content-Type: application/json`
 
@@ -125,15 +125,15 @@ PUT Update: [http://localhost:8080/restaurants/{id}](http://localhost:8080/resta
 	        }
     }
 ```
-DELETE delete: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/51).
-GET ByOwnerId: [http://localhost:8080/restaurants/owner?id={id}](http://localhost:8080/restaurants/owner?id=1).
+> DELETE delete: [http://localhost:8080/restaurants/{id}](http://localhost:8080/restaurants/51).
+> GET ByOwnerId: [http://localhost:8080/restaurants/owner?id={id}](http://localhost:8080/restaurants/owner?id=1).
 
 ---
 ### Operaciones reviews
 ---
-GET List: [http://localhost:8080/reviews/](http://localhost:8080/reviews/).
-GET One: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1).
-POST Create: [http://localhost:8080/reviews/](http://localhost:8080/restaurants/).
+> GET List: [http://localhost:8080/reviews/](http://localhost:8080/reviews/).
+> GET One: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1).
+> POST Create: [http://localhost:8080/reviews/](http://localhost:8080/restaurants/).
 
 `Header: Content-Type: application/json`
 
@@ -151,7 +151,7 @@ POST Create: [http://localhost:8080/reviews/](http://localhost:8080/restaurants/
        	"scoreEnvironment":29
     }
 ```
-PUT Update: [http://localhost:8080/reviews/{id}](http://localhost:8080/restaurants/1001).
+> PUT Update: [http://localhost:8080/reviews/{id}](http://localhost:8080/restaurants/1001).
 
 `Header: Content-Type: application/json`
 
@@ -169,17 +169,17 @@ PUT Update: [http://localhost:8080/reviews/{id}](http://localhost:8080/restauran
        	"scoreEnvironment":29
     }
 ```
-DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).
-GET AllByCustomerId: [http://localhost:8080/reviews/customer?id={id}](http://localhost:8080/reviews/owner?id=1).
-GET AllByRestaurantId: [http://localhost:8080/reviews/restaurant?id={id}](http://localhost:8080/reviews/restaurant?id=1).
-GET TotalAvgByRestaurantId: [http://localhost:8080/reviews/totalavg?restaurantId={id}](http://localhost:8080/reviews/totalavg?restaurantId=1).
-GET TotalAvgByRestaurantIdBetweenDates: [http://localhost:8080/reviews/avg?restaurantId={id}&startDate={yyyy-MM-dd}&endDate={yyyy-MM-dd}](http://localhost:8080/reviews/avg?restaurantId=1&startDate=2018-01-06&endDate=2018-01-07)
+> DELETE delete: [http://localhost:8080/reviews/{id}](http://localhost:8080/reviews/1001).
+> GET AllByCustomerId: [http://localhost:8080/reviews/customer?id={id}](http://localhost:8080/reviews/owner?id=1).
+> GET AllByRestaurantId: [http://localhost:8080/reviews/restaurant?id={id}](http://localhost:8080/reviews/restaurant?id=1).
+> GET TotalAvgByRestaurantId: [http://localhost:8080/reviews/totalavg?restaurantId={id}](http://localhost:8080/reviews/totalavg?restaurantId=1).
+> GET TotalAvgByRestaurantIdBetweenDates: [http://localhost:8080/reviews/avg?restaurantId={id}&startDate={yyyy-MM-dd}&endDate={yyyy-MM-dd}](http://localhost:8080/reviews/avg?restaurantId=1&startDate=2018-01-06&endDate=2018-01-07)
 `Retorna el promedio de reviews total entre las fechas especificadas para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews/avg?restaurantId=1&startDate=2018-01-06&endDate=2018-01-07`
-GET EachDayAvgReviewsByRestaurantId: [http://localhost:8080/reviews/daybydayavg?restaurantId={id}&startDate={yyyy-MM-dd}&endDate={yyyy-MM-dd}](http://localhost:8080/reviews/daybydayavg?restaurantId=1&startDate=2017-12-08&endDate=2018-01-07).
+> GET EachDayAvgReviewsByRestaurantId: [http://localhost:8080/reviews/daybydayavg?restaurantId={id}&startDate={yyyy-MM-dd}&endDate={yyyy-MM-dd}](http://localhost:8080/reviews/daybydayavg?restaurantId=1&startDate=2017-12-08&endDate=2018-01-07).
 `Retorna el promedio de reviews por cada uno de los días entre las fechas especificadas para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews//daybydayavg?restaurantId=1&startDate=2017-12-08&endDate=2018-01-07`
-Get AllDaysAvgReviewsByRestaurantId: [http://localhost:8080/reviews/alldaysavg?restaurantId={id}](http://localhost:8080/reviews/alldaysavg?restaurantId=1)
+> Get AllDaysAvgReviewsByRestaurantId: [http://localhost:8080/reviews/alldaysavg?restaurantId={id}](http://localhost:8080/reviews/alldaysavg?restaurantId=1)
 `Retorna el promedio de reviews por cada uno de los días que se encuentran cargados en la base de datos para el restaurant requerido`
 `Ejemplo: http://localhost:8080/reviews/alldaysavg?restaurantId=1`
 
