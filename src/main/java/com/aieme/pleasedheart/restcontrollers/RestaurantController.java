@@ -76,7 +76,7 @@ public class RestaurantController {
     }
 
     @RequestMapping(value = "/owner", method = RequestMethod.GET)
-    public ResponseEntity<List<Restaurant>> listRestaurantsByOwnerId(@RequestParam("ownerId") int ownerId){
+    public ResponseEntity<List<Restaurant>> listRestaurantsByOwnerId(@RequestParam("id") int ownerId){
         List<Restaurant> restaurants = restaurantService.findByOwnerId(ownerId);
         if(restaurants.isEmpty())
             return new ResponseEntity("The owner specified does not have a restaurant",HttpStatus.NOT_FOUND);

@@ -1,11 +1,17 @@
 package com.aieme.pleasedheart.services;
 
+import com.aieme.pleasedheart.models.Restaurant;
 import com.aieme.pleasedheart.models.Review;
 import org.springframework.stereotype.Service;
 import com.aieme.pleasedheart.models.ReviewAverage;
+import com.aieme.pleasedheart.models.dao.RestaurantDao;
 import com.aieme.pleasedheart.models.dao.ReviewDao;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -13,6 +19,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewDao reviewDao;
+
+    @Autowired
+    private RestaurantDao restaurantDao;
 
     @Override
     public int insert(Review record) {
@@ -61,27 +70,112 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewAverage calculateTotalReviewAverageByRestaurantId(int restaurantId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ReviewAverage reviewAverage = new ReviewAverage();
+        List<Review> reviews = reviewDao.findByRestaurantId(restaurantId);
+        int scoreServiceSum=0;
+        int scoreFoodSum=0;
+        int scoreEnvironmentSum=0;
+        float scoreServiceAvg=0;
+        float scoreFoodAvg=0;
+        float scoreEnvironmentAvg=0;
+        Date minimumDate = new Date(Long.MAX_VALUE);
+        Date maximumDate = new Date(Long.MIN_VALUE);
+        for(Review review:reviews){
+            scoreServiceSum+=review.getScoreService();
+            scoreFoodSum+=review.getScoreFood();
+            scoreEnvironmentSum+=review.getScoreEnvironment();
+            if(review.getDate().before(minimumDate))
+                minimumDate=review.getDate();
+            if(review.getDate().after(maximumDate))
+                maximumDate=review.getDate();
+        }
+        if(reviews.size()>0){
+            scoreServiceAvg=scoreServiceSum/(float)reviews.size();
+            scoreFoodAvg=scoreFoodSum/(float)reviews.size();
+            scoreEnvironmentAvg=scoreEnvironmentSum/(float)reviews.size();
+        }
+        reviewAverage.setStartDate(minimumDate);
+        reviewAverage.setEndDate(maximumDate);
+        reviewAverage.setRestaurant(restaurantDao.findById(restaurantId));
+        reviewAverage.setAvgScoreService(scoreServiceAvg);
+        reviewAverage.setAvgScoreFood(scoreFoodAvg);
+        reviewAverage.setAvgScoreEnvironment(scoreEnvironmentAvg);
+
+        return reviewAverage;
     }
 
     @Override
-    public List<ReviewAverage> calculateRestaurantsTotalReviewAverageByOwnerId(int restaurantId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<ReviewAverage> calculateRestaurantsTotalReviewAverageByOwnerId(int ownerId) {
+        List<ReviewAverage> reviewAvgs = new ArrayList<ReviewAverage>();
+        for(Restaurant restaurant:restaurantDao.findByOwnerId(ownerId)){
+            reviewAvgs.add(calculateTotalReviewAverageByRestaurantId(restaurant.getId()));
+        }
+        return reviewAvgs;
     }
+
+    @Override
+    public ReviewAverage calculateReviewAverageByRestaurantIdBetweenDates(int restaurantId, Date startDate, Date endDate) {
+        ReviewAverage reviewAverage = new ReviewAverage();
+        List<Review> reviews = reviewDao.findByRestaurantIdBetweenDates(restaurantId,startDate,endDate);
+        int scoreServiceSum=0;
+        int scoreFoodSum=0;
+        int scoreEnvironmentSum=0;
+        float scoreServiceAvg=0;
+        float scoreFoodAvg=0;
+        float scoreEnvironmentAvg=0;
+        for(Review review:reviews){
+            scoreServiceSum+=review.getScoreService();
+            scoreFoodSum+=review.getScoreFood();
+            scoreEnvironmentSum+=review.getScoreEnvironment();
+        }
+        if(reviews.size()>0){
+            scoreServiceAvg=scoreServiceSum/(float)reviews.size();
+            scoreFoodAvg=scoreFoodSum/(float)reviews.size();
+            scoreEnvironmentAvg=scoreEnvironmentSum/(float)reviews.size();
+        }
+        reviewAverage.setStartDate(startDate);
+        reviewAverage.setEndDate(endDate);
+        reviewAverage.setRestaurant(restaurantDao.findById(restaurantId));
+        reviewAverage.setAvgScoreService(scoreServiceAvg);
+        reviewAverage.setAvgScoreFood(scoreFoodAvg);
+        reviewAverage.setAvgScoreEnvironment(scoreEnvironmentAvg);
+
+        return reviewAverage;
+    }
+
 
     @Override
     public List<ReviewAverage> calculateEachDayReviewAverageByRestaurantIdBetweenDates(int restaurantId, Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<ReviewAverage> reviewAvgs=new ArrayList<ReviewAverage>();
+        DateTime start = new DateTime(startDate.getTime());
+        DateTime end = new DateTime(endDate.getTime());
+        int days=0;
+        if(end.compareTo(start)>0)
+            days = Days.daysBetween(start, end).getDays();
+        for (int i=0; i < days; i++) {
+            Date st = new Date(start.withFieldAdded(DurationFieldType.days(), i).getMillis());
+            Date et = new Date(start.withFieldAdded(DurationFieldType.days(), i+1).getMillis());
+            reviewAvgs.add(calculateReviewAverageByRestaurantIdBetweenDates(restaurantId,st,et));
+        }
+        return reviewAvgs;
     }
 
     @Override
     public List<ReviewAverage> calculateAllDaysReviewAverageByRestaurantId(int restaurantId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<ReviewAverage> calculateOneDaysReviewAverageByRestaurantId(int restaurantId, Date day) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<ReviewAverage> reviewAvgs = new ArrayList<ReviewAverage>();
+        List<Review> reviews = reviewDao.findByRestaurantId(restaurantId);
+        Date minimumDate = new Date(Long.MAX_VALUE);
+        Date maximumDate = new Date(Long.MIN_VALUE);
+        for(Review review:reviews){
+            if(review.getDate().before(minimumDate))
+                minimumDate=review.getDate();
+            if(review.getDate().after(maximumDate))
+                maximumDate=review.getDate();
+        }
+        if(reviews.size()>0){
+            reviewAvgs = calculateEachDayReviewAverageByRestaurantIdBetweenDates(restaurantId,minimumDate,maximumDate);
+        }
+        return reviewAvgs;
     }
 
 }

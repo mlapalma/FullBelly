@@ -5,11 +5,12 @@ import java.sql.Date;
 public class ReviewAverage {
 
     private Date startDate;
+    private Date endDate;
     private Customer customer;
     private Restaurant restaurant;
     private float avgScoreService;
-    private int avgScoreFood;
-    private int avgScoreEnvironment;
+    private float avgScoreFood;
+    private float avgScoreEnvironment;
 
     public Date getStartDate() {
         return startDate;
@@ -17,6 +18,14 @@ public class ReviewAverage {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Customer getCustomer() {
@@ -43,19 +52,19 @@ public class ReviewAverage {
         this.avgScoreService = avgScoreService;
     }
 
-    public int getAvgScoreFood() {
+    public float getAvgScoreFood() {
         return avgScoreFood;
     }
 
-    public void setAvgScoreFood(int avgScoreFood) {
+    public void setAvgScoreFood(float avgScoreFood) {
         this.avgScoreFood = avgScoreFood;
     }
 
-    public int getAvgScoreEnvironment() {
+    public float getAvgScoreEnvironment() {
         return avgScoreEnvironment;
     }
 
-    public void setAvgScoreEnvironment(int avgScoreEnvironment) {
+    public void setAvgScoreEnvironment(float avgScoreEnvironment) {
         this.avgScoreEnvironment = avgScoreEnvironment;
     }
 }

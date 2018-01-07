@@ -1,9 +1,13 @@
 package com.aieme.pleasedheart.restcontrollers;
 
 import com.aieme.pleasedheart.models.Review;
+import com.aieme.pleasedheart.models.ReviewAverage;
 import com.aieme.pleasedheart.services.ReviewService;
+import java.sql.Date;
 import java.util.List;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -74,4 +79,60 @@ public class ReviewController {
         return new ResponseEntity<Review>(HttpStatus.NO_CONTENT);
     }
 
+    @RequestMapping(value = "/customer", method = RequestMethod.GET)
+    public ResponseEntity<List<Review>> listReviewsByCustomerId(@RequestParam("id") int customerId){
+        List<Review> reviews = reviewService.findByCustomerId(customerId);
+        if(reviews.isEmpty())
+            return new ResponseEntity("The customer specified does not have a review",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<List<Review>>(reviews, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/restaurant", method = RequestMethod.GET)
+    public ResponseEntity<List<Review>> listReviewsByRestaurantId(@RequestParam("id") int restaurantId){
+        List<Review> reviews = reviewService.findByRestaurantId(restaurantId);
+        if(reviews.isEmpty())
+            return new ResponseEntity("The restaurant specified does not have reviews",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<List<Review>>(reviews, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/totalavg", method = RequestMethod.GET)
+    public ResponseEntity<ReviewAverage> retrieveTotalAvgByRestaurantId(@RequestParam("restaurantId") int restaurantId){
+        ReviewAverage reviewAvg = reviewService.calculateTotalReviewAverageByRestaurantId(restaurantId);
+        if(reviewAvg.getAvgScoreService()==0)
+            return new ResponseEntity("The restaurant specified does not have reviews",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ReviewAverage>(reviewAvg, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/avg", method = RequestMethod.GET)
+    public ResponseEntity<ReviewAverage> retrieveAvgByRestaurantIdBetweenDates(@RequestParam("restaurantId") int restaurantId,
+                                                                                       @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") DateTime startDate,
+                                                                                       @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") DateTime endDate){
+        Date start = new Date(startDate.getMillis());
+        Date end = new Date(endDate.getMillis());
+        ReviewAverage reviewAvg = reviewService.calculateReviewAverageByRestaurantIdBetweenDates(restaurantId,start,end);
+        if(reviewAvg.getAvgScoreService()==0)
+            return new ResponseEntity("The restaurant specified does not have reviews in that date range",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ReviewAverage>(reviewAvg, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/daybydayavg", method = RequestMethod.GET)
+    public ResponseEntity<List<ReviewAverage>> retrieveDayByDayAvgByRestaurantIdBetweenDates(@RequestParam("restaurantId") int restaurantId,
+                                                                                       @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") DateTime startDate,
+                                                                                       @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") DateTime endDate){
+
+        Date start = new Date(startDate.getMillis());
+        Date end = new Date(endDate.getMillis());
+        List<ReviewAverage> reviewAvgs = reviewService.calculateEachDayReviewAverageByRestaurantIdBetweenDates(restaurantId,start,end);
+        if(reviewAvgs.isEmpty())
+            return new ResponseEntity("The restaurant specified does not have reviews in that date range",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<List<ReviewAverage>>(reviewAvgs, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/alldaysavg", method = RequestMethod.GET)
+    public ResponseEntity<List<ReviewAverage>> retrieveAllDaysAvgByRestaurantI(@RequestParam("restaurantId") int restaurantId){
+        List<ReviewAverage> reviewAvgs = reviewService.calculateAllDaysReviewAverageByRestaurantId(restaurantId);
+        if(reviewAvgs.isEmpty())
+            return new ResponseEntity("The restaurant specified does not have reviews",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<List<ReviewAverage>>(reviewAvgs, HttpStatus.OK);
+    }
 }
